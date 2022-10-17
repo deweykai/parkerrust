@@ -1,10 +1,11 @@
-use std::{collections::HashMap, io, time::SystemTime};
+use fnv::FnvHashMap;
+use std::{io, time::SystemTime};
 
 use memmap::Mmap;
 
 pub fn readwords<'a>(
     file: &'a Mmap,
-    bits_to_index: &mut HashMap<u32, usize>,
+    bits_to_index: &mut FnvHashMap<u32, usize>,
     index_to_bits: &mut Vec<u32>,
     index_to_word: &mut Vec<&'a [u8]>,
     letter_to_words_bits: &mut [Vec<u32>; 26],

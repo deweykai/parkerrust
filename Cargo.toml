@@ -8,5 +8,7 @@ edition = "2021"
 [dependencies]
 array-init = "2"
 crossbeam = "0.8"
+fnv = "1.0.7"
 memmap = "0.7"
+nohash-hasher = "0.2.0"
 rayon = "1.5"

@@ -1,12 +1,14 @@
-use std::{collections::HashMap, fs::File, time::SystemTime};
+use std::{fs::File, time::SystemTime};
 
 use memmap::Mmap;
+
+use fnv::FnvHashMap;
 use rayon::prelude::{IntoParallelRefIterator, ParallelIterator};
 
 fn findwords_parallel(
     lettermask: &[u32; 26],
     letter_to_words_bits: &[Vec<u32>; 26],
-    bits_to_index: &HashMap<u32, usize>,
+    bits_to_index: &FnvHashMap<u32, usize>,
     index_to_word: &Vec<&[u8]>,
 ) -> usize {
     struct StartInfo {
@@ -48,7 +50,7 @@ fn findwords_parallel(
 fn findwords(
     lettermask: &[u32; 26],
     letter_to_words_bits: &[Vec<u32>; 26],
-    bits_to_index: &HashMap<u32, usize>,
+    bits_to_index: &FnvHashMap<u32, usize>,
     index_to_word: &Vec<&[u8]>,
 
     totalbits: u32,
@@ -157,7 +159,8 @@ fn output(index_to_word: &Vec<&[u8]>, words: &[usize; 5]) -> () {
 }
 
 fn main() {
-    let mut bits_to_index: HashMap<u32, usize> = HashMap::new();
+    let mut bits_to_index: FnvHashMap<u32, usize> =
+        FnvHashMap::with_capacity_and_hasher(6000, Default::default());
     let mut index_to_bits: Vec<u32> = Vec::new();
     let mut index_to_word: Vec<&[u8]> = Vec::new();
     let mut letter_to_words_bits: [Vec<u32>; 26] = Default::default();
